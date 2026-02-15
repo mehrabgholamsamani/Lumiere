@@ -82,8 +82,8 @@ function pageToTitle(p: PageKey): string {
       return "Visitor Center";
     case "ENCHANTING TREASURE":
       return "Enchanting Treasure";
-    case "Lumiere FINLAND":
-      return "Lumiere Finland";
+    case "LUMIÈRE FINLAND":
+      return "Lumière Finland";
     case "RESPONSIBILITY":
       return "Responsibility";
     case "OUR STORY":
@@ -97,7 +97,7 @@ function isInfoPage(p: PageKey) {
   return (
     p === "OUR STORY" ||
     p === "RESPONSIBILITY" ||
-    p === "Lumiere FINLAND" ||
+    p === "LUMIÈRE FINLAND" ||
     p === "ENCHANTING TREASURE" ||
     p === "VISITOR CENTER" ||
     p === "CONTACT" ||
@@ -158,13 +158,16 @@ function Screen() {
   const [activePage, setActivePage] = useState<PageKey>("HOME");
   const [query, setQuery] = useState("");
 
-  const setQuerySmart = useCallback((v: string) => {
-    setQuery(v);
+  const setQuerySmart = useCallback(
+    (v: string) => {
+      setQuery(v);
 
-    if (v.trim() && (activePage === "HOME" || activePage === "ABOUT")) {
-      setActivePage("JEWELLERY");
-    }
-  }, [activePage]);
+      if (v.trim() && (activePage === "HOME" || activePage === "ABOUT")) {
+        setActivePage("JEWELLERY");
+      }
+    },
+    [activePage]
+  );
   const [sortMode, setSortMode] = useState<SortMode>("Featured");
 
   const priceBounds = useMemo(() => {
@@ -198,12 +201,11 @@ function Screen() {
     return () => window.removeEventListener("open-cart", fn as any);
   }, [dispatch]);
 
-useEffect(() => {
-  const fn = () => setActivePage("CHECKOUT");
-  window.addEventListener("go-checkout", fn as any);
-  return () => window.removeEventListener("go-checkout", fn as any);
-}, []);
-
+  useEffect(() => {
+    const fn = () => setActivePage("CHECKOUT");
+    window.addEventListener("go-checkout", fn as any);
+    return () => window.removeEventListener("go-checkout", fn as any);
+  }, []);
 
   const filtered = useMemo(() => {
     let items: Product[] = state.products;
@@ -256,29 +258,28 @@ useEffect(() => {
           <>
             <div className="crumbs muted small">Home / {title}</div>
 
-        <div className="titleRow">
-          <h1 className="pageTitle">{title}</h1>
-          <div className="muted small">{filtered.length} products</div>
-        </div>
+            <div className="titleRow">
+              <h1 className="pageTitle">{title}</h1>
+              <div className="muted small">{filtered.length} products</div>
+            </div>
 
-        <div className="chipRow" aria-label="Category chips">
-          {categoryChips.map((c) => (
-            <button
-              key={c}
-              className="chipBtn"
-              onClick={() => {
-                if (c === "Rings") setActivePage("RINGS");
-                else if (c === "Necklaces") setActivePage("NECKLACES");
-                else if (c === "High Jewellery") setActivePage("HIGH JEWELLERY");
-                else if (c === "Gifts") setActivePage("GIFTS");
-                else setActivePage("JEWELLERY");
-              }}
-            >
-              {c}
-            </button>
-          ))}
-        </div>
-
+            <div className="chipRow" aria-label="Category chips">
+              {categoryChips.map((c) => (
+                <button
+                  key={c}
+                  className="chipBtn"
+                  onClick={() => {
+                    if (c === "Rings") setActivePage("RINGS");
+                    else if (c === "Necklaces") setActivePage("NECKLACES");
+                    else if (c === "High Jewellery") setActivePage("HIGH JEWELLERY");
+                    else if (c === "Gifts") setActivePage("GIFTS");
+                    else setActivePage("JEWELLERY");
+                  }}
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
 
             <div className="layout">
               <FiltersPanel filters={filters} setFilters={setFilters} priceBounds={priceBounds} />
@@ -299,7 +300,6 @@ useEffect(() => {
                 />
               </section>
             </div>
-
           </>
         )}
 

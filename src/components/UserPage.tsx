@@ -112,7 +112,7 @@ export function UserPage({ onBackToShop }: { onBackToShop: () => void }) {
   const [loading, setLoading] = useState(true);
 
 
-  const [profile, setProfile] = useState<ProfileRow | null>(null);
+  const [_profile, setProfile] = useState<ProfileRow | null>(null);
   const [fullName, setFullName] = useState("");
 
 

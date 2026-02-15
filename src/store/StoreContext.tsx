@@ -42,6 +42,7 @@ const StoreCtx = createContext<{
     cartSubtotalCents: number;
     favCount: number;
     findProduct: (id: string) => Product | undefined;
+    isAuthed: boolean;
   };
 } | null>(null);
 
@@ -104,7 +105,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   });
 
   const syncFavoritesForUser = async (userId: string) => {
-
     const localFavIds = Object.keys(state.favorites);
     if (localFavIds.length) {
       await supabase
@@ -115,11 +115,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         );
     }
 
-
-    const { data, error } = await supabase
-      .from("favorites")
-      .select("product_id")
-      .eq("user_id", userId);
+    const { data, error } = await supabase.from("favorites").select("product_id").eq("user_id", userId);
 
     if (error) throw error;
     const next: Record<string, true> = {};
@@ -130,19 +126,13 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const toggleFavorite = async (productId: string) => {
     const currentlyFav = !!state.favorites[productId];
 
-
     dispatch({ type: "fav/toggle", id: productId });
-
 
     if (!state.user?.id) return;
 
     try {
       if (currentlyFav) {
-        const { error } = await supabase
-          .from("favorites")
-          .delete()
-          .eq("user_id", state.user.id)
-          .eq("product_id", productId);
+        const { error } = await supabase.from("favorites").delete().eq("user_id", state.user.id).eq("product_id", productId);
         if (error) throw error;
         dispatch({ type: "toast/show", message: "Removed from favorites." });
       } else {
@@ -153,12 +143,10 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         dispatch({ type: "toast/show", message: "Saved to favorites." });
       }
     } catch {
-
       dispatch({ type: "fav/toggle", id: productId });
       dispatch({ type: "toast/show", message: "Could not update favorites. Try again." });
     }
   };
-
 
   useEffect(() => {
     let isMounted = true;
@@ -168,15 +156,11 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       const u = data.user;
       dispatch({
         type: "auth/set",
-        user: u
-          ? { id: u.id, email: u.email ?? "", name: (u.user_metadata as any)?.full_name ?? undefined }
-          : null,
+        user: u ? { id: u.id, email: u.email ?? "", name: (u.user_metadata as any)?.full_name ?? undefined } : null,
       });
 
       if (u) {
-        syncFavoritesForUser(u.id).catch(() => {
-
-        });
+        syncFavoritesForUser(u.id).catch(() => {});
       }
     });
 
@@ -184,17 +168,12 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       const u = session?.user ?? null;
       dispatch({
         type: "auth/set",
-        user: u
-          ? { id: u.id, email: u.email ?? "", name: (u.user_metadata as any)?.full_name ?? undefined }
-          : null,
+        user: u ? { id: u.id, email: u.email ?? "", name: (u.user_metadata as any)?.full_name ?? undefined } : null,
       });
 
       if (u) {
-        syncFavoritesForUser(u.id).catch(() => {
-
-        });
+        syncFavoritesForUser(u.id).catch(() => {});
       } else {
-
         dispatch({ type: "fav/replace", favorites: {} });
       }
     });
@@ -204,7 +183,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       sub.subscription.unsubscribe();
     };
   }, []);
-
 
   useEffect(() => {
     savePersisted({ cart: state.cart, favorites: state.favorites, user: state.user });

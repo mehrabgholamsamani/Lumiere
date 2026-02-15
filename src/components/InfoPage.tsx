@@ -22,6 +22,7 @@ const COPY: Record<
     | "ABOUT"
     | "CHECKOUT"
     | "ACCOUNT"
+    | "USER"
   >,
   Copy
 > = {
