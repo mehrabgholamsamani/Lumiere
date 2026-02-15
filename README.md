@@ -2,7 +2,7 @@
 
 A production-grade full-stack jewelry storefront built with a strong focus on architecture, scalability, and real-world engineering patterns. This project was designed to simulate how a modern e-commerce system is actually structured in industry, not just how it looks.
 
-lumiere-one-theta.vercel.app
+[lumiere-one-theta.vercel.app](https://lumiere-one-theta.vercel.app/)
 <br>
 
 ## Overview
