@@ -43,6 +43,7 @@ export function Header({ query, setQuery, sortMode, setSortMode, activePage, set
   const logoRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   React.useEffect(() => {
     if (searchOpen) {
@@ -62,6 +63,18 @@ export function Header({ query, setQuery, sortMode, setSortMode, activePage, set
     <header className="header">
       <div className="topBar">
         <div className="topSlot left">
+          <button
+            className={"menuToggle iconTop " + (menuOpen ? "active" : "")}
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label="Menu"
+            aria-expanded={menuOpen}
+          >
+            <div className="burger">
+              <span />
+              <span />
+              <span />
+            </div>
+          </button>
           <button className="iconTop" onClick={() => setActivePage("HOME")} aria-label="Saved">
             <Icon name="heart" width={18} height={18} />
           </button>
@@ -106,7 +119,7 @@ export function Header({ query, setQuery, sortMode, setSortMode, activePage, set
         </div>
       </div>
 
-      <nav className="navBar" aria-label="Main navigation">
+      <nav className={"navBar " + (menuOpen ? "open" : "")} aria-label="Main navigation">
         {navLinks.map((t) => (
           <a
             key={t}
@@ -115,6 +128,7 @@ export function Header({ query, setQuery, sortMode, setSortMode, activePage, set
             onClick={(e) => {
               e.preventDefault();
               setActivePage(t);
+              setMenuOpen(false);
             }}
           >
             {t}
