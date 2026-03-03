@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import type { Brand, Collection, GemShape, MaterialGroup } from "../types";
 
 type SectionProps = {
@@ -9,6 +9,11 @@ type SectionProps = {
 
 function Section({ title, children, defaultOpen = true }: SectionProps) {
   const [open, setOpen] = useState(defaultOpen);
+
+  useEffect(() => {
+    setOpen(defaultOpen);
+  }, [defaultOpen]);
+
   return (
     <div className="filterSection">
       <button className="filterHeader" onClick={() => setOpen((v) => !v)} aria-expanded={open}>
@@ -46,13 +51,26 @@ function toggleSet<T>(set: Set<T>, value: T): Set<T> {
 
 export function FiltersPanel({ filters, setFilters, priceBounds }: Props) {
   const [showMore, setShowMore] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const setMin = (v: number) => setFilters({ ...filters, priceMin: v });
   const setMax = (v: number) => setFilters({ ...filters, priceMax: v });
 
   return (
-    <aside className="filters" aria-label="Filters">
-      <div className="filtersTitle">Filters</div>
+    <div className="filtersPanelWrap">
+      <button
+        type="button"
+        className={"filtersToggle " + (mobileOpen ? "open" : "")}
+        onClick={() => setMobileOpen((v) => !v)}
+        aria-expanded={mobileOpen}
+        aria-controls="filters-mobile-panel"
+      >
+        {mobileOpen ? "Hide filters" : "Show filters"}
+      </button>
+
+      <div id="filters-mobile-panel" className={"filtersMobilePanel " + (mobileOpen ? "open" : "")}>
+        <aside className="filters" aria-label="Filters">
+          <div className="filtersTitle">Filters</div>
 
       <Section title="Price">
         <div className="priceRow">
@@ -142,7 +160,7 @@ export function FiltersPanel({ filters, setFilters, priceBounds }: Props) {
         </div>
       </Section>
 
-      <Section title="Jewelry Material" defaultOpen={showMore}>
+          <Section title="Jewelry Material" defaultOpen={showMore}>
         <div className="check">
           {(["Silver", "Gold", "Vermeil", "Mixed"] as const).map((m) => (
             <label key={m}>
@@ -157,25 +175,27 @@ export function FiltersPanel({ filters, setFilters, priceBounds }: Props) {
         </div>
       </Section>
 
-      <button className="showMore" onClick={() => setShowMore((v) => !v)}>
-        {showMore ? "Show less" : "Show more"}
-      </button>
+          <button className="showMore" onClick={() => setShowMore((v) => !v)}>
+            {showMore ? "Show less" : "Show more"}
+          </button>
 
-      <button
-        className="showMore"
-        onClick={() =>
-          setFilters({
-            priceMin: priceBounds.min,
-            priceMax: priceBounds.max,
-            brands: new Set(),
-            collections: new Set(),
-            gemShapes: new Set(),
-            materials: new Set(),
-          })
-        }
-      >
-        Clear filters
-      </button>
-    </aside>
+          <button
+            className="showMore"
+            onClick={() =>
+              setFilters({
+                priceMin: priceBounds.min,
+                priceMax: priceBounds.max,
+                brands: new Set(),
+                collections: new Set(),
+                gemShapes: new Set(),
+                materials: new Set(),
+              })
+            }
+          >
+            Clear filters
+          </button>
+        </aside>
+      </div>
+    </div>
   );
 }

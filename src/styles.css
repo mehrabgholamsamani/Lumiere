@@ -1649,6 +1649,7 @@ img{ display:block; max-width:100%; }
 .skelBtn{ height: 44px; border-radius: 999px; }
 .skelThumb{ width: 44px; height: 44px; border-radius: 14px; }
 .skelCard{ display: grid; gap: 12px; padding: 12px; border: 1px solid var(--line); border-radius: 18px; }
+.skelLine{ max-width: 100%; }
 /* Fix newsletter input + button alignment */
 .newsForm {
   display: flex;
@@ -2534,5 +2535,122 @@ body{
   .lineItem img{
     width: 100%;
     height: 150px;
+  }
+}
+
+/* Mobile audit fixes */
+html, body{
+  width: 100%;
+  overflow-x: hidden;
+}
+
+button{
+  touch-action: manipulation;
+}
+
+.cardTitle{
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.cardPrice{
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.check label{
+  min-height: 40px;
+  padding: 4px 0;
+}
+
+.filterHeader{
+  min-height: 40px;
+}
+
+.accFormNarrow{
+  max-width: 560px;
+}
+
+.accFormWide{
+  max-width: 640px;
+}
+
+.accList{
+  display: grid;
+  gap: 10px;
+}
+
+.accTwoCol{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.accAddrTop{
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.accItemActions{
+  display: flex;
+  gap: 8px;
+}
+
+.accChecks{
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.accFooterAction{
+  margin-top: 14px;
+}
+
+@media (max-width: 768px){
+  .topBar{
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+
+  .topSlot{
+    gap: 8px;
+  }
+
+  .filtersTitle{
+    margin-bottom: 8px;
+  }
+
+  .check label{
+    min-height: 44px;
+    font-size: 14px;
+  }
+
+  .filterHeader{
+    min-height: 44px;
+  }
+
+  .accItemActions .btnPrimary,
+  .accItemActions .btnOutline{
+    min-height: 40px;
+  }
+}
+
+@media (max-width: 640px){
+  .accTwoCol{
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 420px){
+  .topSlot{
+    gap: 6px;
+  }
+
+  .brandName{
+    letter-spacing: 0.1em;
   }
 }

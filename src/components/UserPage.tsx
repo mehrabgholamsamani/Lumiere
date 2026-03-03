@@ -338,7 +338,7 @@ export function UserPage({ onBackToShop }: { onBackToShop: () => void }) {
     <div ref={rootRef} className="accWrap">
       <div className="crumbs muted small">Home / Your account</div>
 
-      <div className="accCard" style={{ marginTop: 10 }}>
+      <div className="accCard accMainCard" style={{ marginTop: 10 }}>
         <div className="accTopRow">
           <h1 className="pageTitle" style={{ marginBottom: 6 }}>
             Your account
@@ -362,7 +362,7 @@ export function UserPage({ onBackToShop }: { onBackToShop: () => void }) {
         {loading ? (
           <TabSkeleton tab={tab} />
         ) : tab === "PROFILE" ? (
-          <div className="accForm" style={{ maxWidth: 560 }}>
+          <div className="accForm accFormNarrow">
             <label className="field">
               <span>Full name</span>
               <input value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="Your name" />
@@ -380,14 +380,14 @@ export function UserPage({ onBackToShop }: { onBackToShop: () => void }) {
                       </div>
         ) : tab === "ADDRESSES" ? (
           <div>
-            <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", marginBottom: 10 }}>
+            <div className="accAddrTop" style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", marginBottom: 10 }}>
               <div className="muted">Shipping & billing details.</div>
               <button className="btnOutline" onClick={startNewAddress} type="button">
                 + New address
               </button>
             </div>
 
-            <div style={{ display: "grid", gap: 10, marginBottom: 16 }}>
+            <div className="accList" style={{ display: "grid", gap: 10, marginBottom: 16 }}>
               {addresses.length === 0 ? (
                 <div className="muted">No addresses yet.</div>
               ) : (
@@ -406,7 +406,7 @@ export function UserPage({ onBackToShop }: { onBackToShop: () => void }) {
                         {a.is_default_billing ? "Default billing" : ""}
                       </div>
                     </div>
-                    <div style={{ display: "flex", gap: 8 }}>
+                    <div className="accItemActions" style={{ display: "flex", gap: 8 }}>
                       <button className="btnOutline" onClick={() => startEditAddress(a)} type="button">
                         Edit
                       </button>
@@ -419,11 +419,11 @@ export function UserPage({ onBackToShop }: { onBackToShop: () => void }) {
               )}
             </div>
 
-            <div className="accCard" style={{ padding: 14 }}>
+            <div className="accCard accSubCard" style={{ padding: 14 }}>
               <div style={{ fontWeight: 600, marginBottom: 8 }}>{editing ? "Edit address" : "Add address"}</div>
 
-              <div className="accForm" style={{ maxWidth: 640 }}>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+              <div className="accForm accFormWide" style={{ maxWidth: 640 }}>
+                <div className="accTwoCol" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                   <label className="field">
                     <span>Label</span>
                     <input value={addrDraft.label ?? ""} onChange={(e) => setAddrDraft((p) => ({ ...p, label: e.target.value }))} />
@@ -445,7 +445,7 @@ export function UserPage({ onBackToShop }: { onBackToShop: () => void }) {
                   <input value={addrDraft.line2 ?? ""} onChange={(e) => setAddrDraft((p) => ({ ...p, line2: e.target.value }))} />
                 </label>
 
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                <div className="accTwoCol" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                   <label className="field">
                     <span>City</span>
                     <input value={addrDraft.city ?? ""} onChange={(e) => setAddrDraft((p) => ({ ...p, city: e.target.value }))} />
@@ -457,7 +457,7 @@ export function UserPage({ onBackToShop }: { onBackToShop: () => void }) {
                   </label>
                 </div>
 
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                <div className="accTwoCol" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                   <label className="field">
                     <span>Region</span>
                     <input value={addrDraft.region ?? ""} onChange={(e) => setAddrDraft((p) => ({ ...p, region: e.target.value }))} />
@@ -469,7 +469,7 @@ export function UserPage({ onBackToShop }: { onBackToShop: () => void }) {
                   </label>
                 </div>
 
-                <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+                <div className="accChecks" style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
                   <label className="muted small" style={{ display: "flex", gap: 8, alignItems: "center" }}>
                     <input
                       type="checkbox"
@@ -496,7 +496,7 @@ export function UserPage({ onBackToShop }: { onBackToShop: () => void }) {
             </div>
           </div>
         ) : tab === "FAVORITES" ? (
-          <div style={{ display: "grid", gap: 10 }}>
+          <div className="accList" style={{ display: "grid", gap: 10 }}>
             {favProducts.length === 0 ? (
               <div className="muted">No favorites yet.</div>
             ) : (
@@ -514,7 +514,7 @@ export function UserPage({ onBackToShop }: { onBackToShop: () => void }) {
             )}
           </div>
         ) : (
-          <div style={{ display: "grid", gap: 10 }}>
+          <div className="accList" style={{ display: "grid", gap: 10 }}>
             {orders.length === 0 ? (
               <div className="muted">No orders yet.</div>
             ) : (
@@ -533,7 +533,7 @@ export function UserPage({ onBackToShop }: { onBackToShop: () => void }) {
           </div>
         )}
 
-        <div style={{ marginTop: 14 }}>
+        <div className="accFooterAction" style={{ marginTop: 14 }}>
           <button className="btnOutline" onClick={onBackToShop} type="button">
             Continue shopping
           </button>
