@@ -6,21 +6,36 @@
   "packageManager": "pnpm@9.15.0",
   "scripts": {
     "dev": "vite",
+    "dev:api": "nodemon server/index.js",
+    "dev:all": "concurrently \"npm run dev\" \"npm run dev:api\"",
+    "start:api": "node server/index.js",
     "build": "tsc -b && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.95.3",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.5.2",
     "gsap": "^3.12.5",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.7.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "three": "^0.160.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@types/three": "^0.160.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "concurrently": "^9.2.4",
+    "nodemon": "^3.1.14",
     "typescript": "^5.6.3",
     "vite": "^5.4.8"
   }
