@@ -4,6 +4,7 @@ import { PRODUCTS } from "../data/products";
 import { clamp } from "../utils";
 import { loadPersisted, savePersisted } from "./storage";
 import { supabase } from "../lib/supabase";
+import { request } from "../lib/api";
 
 type State = {
   products: Product[];
@@ -18,6 +19,7 @@ type State = {
 };
 
 type Action =
+  | { type: "products/replace"; products: Product[] }
   | { type: "cart/open"; open: boolean }
   | { type: "product/open"; id: string | null }
   | { type: "toast/show"; message: string }
@@ -48,6 +50,8 @@ const StoreCtx = createContext<{
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
+    case "products/replace":
+      return { ...state, products: action.products };
     case "cart/open":
       return { ...state, ui: { ...state.ui, cartOpen: action.open } };
     case "product/open":
@@ -147,6 +151,12 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       dispatch({ type: "toast/show", message: "Could not update favorites. Try again." });
     }
   };
+
+  useEffect(() => {
+    request<Product[]>("/products").then((products) => {
+      if (products.length) dispatch({ type: "products/replace", products });
+    }).catch(() => {});
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
