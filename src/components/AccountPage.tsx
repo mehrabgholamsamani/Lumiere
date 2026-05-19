@@ -183,7 +183,7 @@ export function AccountPage({ onBackToShop }: { onBackToShop: () => void }) {
   const canSubmit = useMemo(() => {
     if (!isValidEmail(email)) return false;
     if (mode === "SIGN_UP" && name.trim().length < 2) return false;
-    if (password.trim().length < 6) return false;
+    if (password.trim().length < 12) return false;
     return true;
   }, [email, password, name, mode]);
 
