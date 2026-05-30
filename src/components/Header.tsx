@@ -2,6 +2,7 @@ import React, { useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 import { useStore } from "../store/StoreContext";
 import { Icon } from "./Icon";
+import { getToken } from "../lib/api";
 
 export type PageKey =
   | "HOME"
@@ -24,7 +25,8 @@ export type PageKey =
   | "RETURN INSTRUCTIONS"
   | "JEWELRY MAINTENANCE"
   | "ACCOUNT"
-  | "USER";
+  | "USER"
+  | "ADMIN";
 
 type Props = {
   query: string;
@@ -106,7 +108,7 @@ export function Header({ query, setQuery, sortMode, setSortMode, activePage, set
 
           <button
             className="iconTop"
-            onClick={() => setActivePage(derived.isAuthed ? "USER" : "ACCOUNT")}
+            onClick={() => setActivePage(getToken() && derived.isAuthed ? "USER" : "ACCOUNT")}
             aria-label="Account"
           >
             <Icon name="user" width={18} height={18} />
