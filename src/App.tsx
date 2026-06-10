@@ -15,6 +15,7 @@ import { AboutPage } from "./components/AboutPage";
 import { AccountPage } from "./components/AccountPage";
 import { UserPage } from "./components/UserPage";
 import { InfoPage } from "./components/InfoPage";
+import { AdminPage } from "./components/AdminPage";
 
 const categoryChips = ["Rings", "Earrings", "Necklaces", "Bracelets", "High Jewellery", "Gifts"] as const;
 
@@ -155,7 +156,7 @@ export function formatEUR(cents: number) {
 function Screen() {
   const { state, dispatch } = useStore();
 
-  const [activePage, setActivePage] = useState<PageKey>("HOME");
+  const [activePage, setActivePage] = useState<PageKey>(() => window.location.hash === "#admin" ? "ADMIN" : "HOME");
   const [query, setQuery] = useState("");
 
   const setQuerySmart = useCallback(
@@ -243,6 +244,8 @@ function Screen() {
           <UserPage onBackToShop={() => setActivePage("JEWELLERY")} />
         ) : activePage === "ACCOUNT" ? (
           <AccountPage onBackToShop={() => setActivePage("JEWELLERY")} />
+        ) : activePage === "ADMIN" ? (
+          <AdminPage onBack={() => setActivePage("JEWELLERY")} />
         ) : activePage === "HOME" ? (
           <LandingPage onShop={() => setActivePage("JEWELLERY")} onGoHigh={() => setActivePage("HIGH JEWELLERY")} onNavigate={(p) => setActivePage(p)} />
         ) : activePage === "ABOUT" ? (
